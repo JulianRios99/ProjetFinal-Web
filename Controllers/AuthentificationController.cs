@@ -1,6 +1,11 @@
-﻿namespace ProjetFinal.Controllers
+﻿using Microsoft.AspNetCore.Mvc;
+using ProjetFinal.Donnees;
+
+namespace ProjetFinal.Controllers
 {
-    public class AuthentificationController
+    public class AuthentificationController : Controller
     {
+
+        private readonly Bibliotheque _bibliotheque;
     }
 }
