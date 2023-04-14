@@ -12,19 +12,22 @@ namespace ProjetFinal.Models
     public class Utilisateurs
     {
         public int ID { get; set; }
-        public required string prenom { get; set; }
-        public required string nom { get; set; }
+        public required string Prenom { get; set; }
+        public required string Nom { get; set; }
 
         [EmailAddress]
-        public required string courriel { get; set; }
+        public required string Courriel { get; set; }
 
-        [Column(TypeName = "varbinary(max)")]
-        public required string motDePasse { get; set; }
+        [Column(TypeName = "varbinary(max)"), Display(Name = "Mot de passe"), DataType(DataType.Password)]
+        public required string MotDePasse { get; set; }
 
-        public required Langue langue { get; set; }
+        public required Langue Langue { get; set; }
 
         //Voir si besoin de roles
-        public required bool admin { get; set; }
+        public required bool Admin { get; set; }
+
+        public List<Reservations> Reservations { get; set; } = new();
+         public List<Role> Role { get; set; } = new();
 
     }
 }

@@ -3,11 +3,12 @@
     public class Ouvrages
     {
         public int ID { get; set; }
-        public required string titre { get; set; }
+        public required string Titre { get; set; }
 
-        //Voir si auteur devrait etre dans un enum
-        public required string auteur { get; set; }
+        public required string Auteur { get; set; }
 
-        public required int exemplaires { get; set; }
+        public required int Exemplaires { get; set; }
+
+        public List<Reservations> Reservations { get; set; } = new();
     }
 }

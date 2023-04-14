@@ -14,236 +14,182 @@ namespace ProjetFinal.Donnees
                 return;
             }
 
-            //USERS!
-            var henry = new Utilisateurs()
-            {
-                prenom = "Henri",
-                nom = "Delpech",
-                courriel = "henri.delpech@gmail.com",
-                //voir c'est correct ca:
-                motDePasse = $@"HASHBYTES('SHA2_256', { "test1" })",
-                langue = Langue.Francais,
-                admin = false
+
+            var roleAdmin = new Role { Nom = "Admin" };
+            var roleUser = new Role { Nom = "User" };
+
+            await bibliotheque.Roles.AddRangeAsync(new Role[] { roleAdmin, roleUser });
+
+            var henri = (await bibliotheque.Utilisateurs.FromSql($@"
+            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Administrateur])
+            OUTPUT INSERTED.ID,
+                   INSERTED.Prenom,
+                   INSERTED.Nom,
+                   INSERTED.Courriel,
+                   INSERTED.MotDePasse,
+                   INSERTED.Langue,
+                   INSERTED.Admin,
+            VALUES ({"Henry"},{"Delpech"}, {"henry.delpech@gmail.com"}, HASHBYTES('SHA2_256, {"test1"}), {0}, {"false"})
+            ").ToListAsync())[0];
+
+
+            var anais = (await bibliotheque.Utilisateurs.FromSql($@"
+            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Administrateur])
+            OUTPUT INSERTED.ID,
+                   INSERTED.Prenom,
+                   INSERTED.Nom,
+                   INSERTED.Courriel,
+                   INSERTED.MotDePasse,
+                   INSERTED.Langue,
+                   INSERTED.Admin,
+            VALUES ({"Anaïs"},{"Laventure"}, {"anais.laventure@gmail.com"}, HASHBYTES('SHA2_256, {"test2"}), {0}, {"true"})
+            ").ToListAsync())[0];
+
+
+            var felix = (await bibliotheque.Utilisateurs.FromSql($@"
+            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Administrateur])
+            OUTPUT INSERTED.ID,
+                   INSERTED.Prenom,
+                   INSERTED.Nom,
+                   INSERTED.Courriel,
+                   INSERTED.MotDePasse,
+                   INSERTED.Langue,
+                   INSERTED.Admin,
+            VALUES ({"Félix"},{"Dionne"}, {"felix.dionne@gmail.com"}, HASHBYTES('SHA2_256, {"test3"}), {0}, {"false"})
+            ").ToListAsync())[0];
+
+            var michel = (await bibliotheque.Utilisateurs.FromSql($@"
+            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Administrateur])
+            OUTPUT INSERTED.ID,
+                   INSERTED.Prenom,
+                   INSERTED.Nom,
+                   INSERTED.Courriel,
+                   INSERTED.MotDePasse,
+                   INSERTED.Langue,
+                   INSERTED.Admin,
+            VALUES ({"Michel"},{"Toussaint"}, {"toussaint.michel@gmail.com"}, HASHBYTES('SHA2_256, {"test4"}), {0}, {"false"})
+            ").ToListAsync())[0];
+
+            var kinza = (await bibliotheque.Utilisateurs.FromSql($@"
+            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Administrateur])
+            OUTPUT INSERTED.ID,
+                   INSERTED.Prenom,
+                   INSERTED.Nom,
+                   INSERTED.Courriel,
+                   INSERTED.MotDePasse,
+                   INSERTED.Langue,
+                   INSERTED.Admin,
+            VALUES ({"Kinza"},{"Bacha"}, {"kinza.bacha@gmail.com"}, HASHBYTES('SHA2_256, {"test5"}), {0}, {"false"})
+            ").ToListAsync())[0];
+
+
+            var Jian = (await bibliotheque.Utilisateurs.FromSql($@"
+            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Administrateur])
+            OUTPUT INSERTED.ID,
+                   INSERTED.Prenom,
+                   INSERTED.Nom,
+                   INSERTED.Courriel,
+                   INSERTED.MotDePasse,
+                   INSERTED.Langue,
+                   INSERTED.Admin,
+            VALUES ({"Jian"},{"Xiaochun"}, {"jian.xiaochun@gmail.com"}, HASHBYTES('SHA2_256, {"test6"}), {1}, {"false"})
+            ").ToListAsync())[0];
+
+
+            henri.Role.Add(roleUser);
+            anais.Role.Add(roleAdmin);
+            felix.Role.Add(roleUser);
+            michel.Role.Add(roleUser);
+            kinza.Role.Add(roleUser);
+            Jian.Role.Add(roleUser);
+
+
+            var ouvrage1 = new Ouvrages()
+            { 
+                Titre = "Stupeur et Tremblements",
+                Auteur = "Amelie Nothomb",
+                Exemplaires = 1
+            
             };
 
-            var anais = new Utilisateurs()
+            var ouvrage2 = new Ouvrages()
             {
-                prenom = "Anais",
-                nom = "Laventure",
-                courriel = "anais.laventure@gmail.com",
-                //voir c'est correct ca:
-                motDePasse = $@"HASHBYTES('SHA2_256', {"test2"})",
-                langue = Langue.Francais,
-                admin = true
+                Titre = "Une forme de vie",
+                Auteur = "Amelie Nothomb",
+                Exemplaires = 1
+
             };
 
-            var felix = new Utilisateurs()
+            var ouvrage3 = new Ouvrages()
             {
-                prenom = "Felix",
-                nom = "Dionne",
-                courriel = "felix.dionne@gmail.com",
-                //voir c'est correct ca:
-                motDePasse = $@"HASHBYTES('SHA2_256', {"test3"})",
-                langue = Langue.Francais,
-                admin = false
+                Titre = "Barbe blue",
+                Auteur = "Amelie Nothomb",
+                Exemplaires = 1
+
             };
 
-            var toussaint = new Utilisateurs()
+            var ouvrage4 = new Ouvrages()
             {
-                prenom = "Toussaint",
-                nom = "Michel",
-                courriel = "toussaint.michel@gmail.com",
-                //voir c'est correct ca:
-                motDePasse = $@"HASHBYTES('SHA2_256', {"test4"})",
-                langue = Langue.Francais,
-                admin = false
+                Titre = "Journal d'Hirondelle",
+                Auteur = "Amelie Nothomb",
+                Exemplaires = 1
+
             };
 
-            var kinza = new Utilisateurs()
+            var ouvrage5 = new Ouvrages()
             {
-                prenom = "Kinza",
-                nom = "Bacha",
-                courriel = "kinza.bacha@gmail.com",
-                //voir c'est correct ca:
-                motDePasse = $@"HASHBYTES('SHA2_256', {"test5"})",
-                langue = Langue.Francais,
-                admin = false
+                Titre = "Journal d'Hirondelle",
+                Auteur = "Amelie Nothomb",
+                Exemplaires = 1
+
             };
 
-            var jian = new Utilisateurs()
+            //------ continuer les ouvrage (son 22)
+
+            await bibliotheque.Ouvrages.AddRangeAsync(new Ouvrages[] { ouvrage1, ouvrage2, ouvrage3, ouvrage4, ouvrage5 }); // continuar agregando los ouvrages 
+
+
+
+            var reservation1 = new Reservations()
             {
-                prenom = "Jian",
-                nom = "Xiaochun",
-                courriel = "jian.xiaochun@gmail.com",
-                //voir c'est correct ca:
-                motDePasse = $@"HASHBYTES('SHA2_256', {"test6"})",
-                langue = Langue.Anglais,
-                admin = false
+                Utilisateurs = michel,
+                Ouvrage = ouvrage1  // MODIFIER louvrage correct est la 10 
+            };
+
+            /*
+            var reservation2 = new Reservations()
+            {
+                Utilisateurs = michel,
+                Ouvrage = ouvrage1,  // MODIFIER louvrage correct est la 10 
+            };*/
+
+            var reservation3 = new Reservations()
+            {
+                Utilisateurs = felix,
+                Ouvrage = ouvrage1 // MODIFIER louvrage correct est la 6
             };
 
 
-            //BOOKS!
-            var stupeurTremblements = new Ouvrages()
+            var reservation4 = new Reservations()
             {
-                titre = "Stupeur Et Tremblements",
-                auteur = "Amelie Nothomb",
-                exemplaires = 1
+                Utilisateurs = anais,
+                Ouvrage = ouvrage4
+               
             };
 
-            var formVie = new Ouvrages()
+
+            var reservation5 = new Reservations()
             {
-                titre = "Une forme de vie",
-                auteur = "Amelie Nothomb",
-                exemplaires = 1
+                Utilisateurs = kinza,
+                Ouvrage = ouvrage3 // MODIFIER louvrage correct est la 6
             };
 
-            var barbeBleue = new Ouvrages()
-            {
-                titre = "Barbe bleue",
-                auteur = "Amelie Nothomb",
-                exemplaires = 1
-            };
+            await bibliotheque.Reservations.AddRangeAsync(new Reservations[] { reservation1, reservation3, reservation4, reservation5 }); // MODIFIER LES RESERVATIONS
 
-            var journalHirondelle = new Ouvrages()
-            {
-                titre = "Journal d'Hirondelle",
-                auteur = "Amelie Nothomb",
-                exemplaires = 1
-            };
+            await bibliotheque.SaveChangesAsync();
 
-            var acideSulfurique = new Ouvrages()
-            {
-                titre = "Acide Sulfurique",
-                auteur = "Amelie Nothomb",
-                exemplaires = 2
-            };
-
-            var mystereExcellence = new Ouvrages()
-            {
-                titre = "Le Mystere par excellence",
-                auteur = "Amelie Nothomb",
-                exemplaires = 2
-            };
-
-            var sabotageAmoureux = new Ouvrages()
-            {
-                titre = "Le Sabotage amoureux",
-                auteur = "Amelie Nothomb",
-                exemplaires = 2
-            };
-
-            var voyageHiver = new Ouvrages()
-            {
-                titre = "Le Voyage d'hiver",
-                auteur = "Amelie Nothomb",
-                exemplaires = 2
-            };
-
-            var lesCatilinaires = new Ouvrages()
-            {
-                titre = "Les Catilinaires",
-                auteur = "Amelie Nothomb",
-                exemplaires = 1
-            };
-
-            var metaphysique = new Ouvrages()
-            {
-                titre = "Methaphysique Des Tubes",
-                auteur = "Amelie Nothomb",
-                exemplaires = 3
-            };
-
-            var premierApocalypse = new Ouvrages()
-            {
-                titre = "Premier bilan apres l'apocalypse",
-                auteur = "Frederic Beigbeder",
-                exemplaires = 1
-            };
-
-            var secoursPardon = new Ouvrages()
-            {
-                titre = "Au secours pardon",
-                auteur = "Frederic Beigbeder",
-                exemplaires = 1
-            };
-
-            var romanFrancais = new Ouvrages()
-            {
-                titre = "Un roman francais",
-                auteur = "Frederic Beigbeder",
-                exemplaires = 1
-            };
-
-            var memoiresDeranges = new Ouvrages()
-            {
-                titre = "Memoires D'Un Jeune Homme Derange",
-                auteur = "Frederic Beigbeder",
-                exemplaires = 1
-            };
-
-            var francs = new Ouvrages()
-            {
-                titre = "99 Francs",
-                auteur = "Frederic Beigbeder",
-                exemplaires = 1
-            };
-
-            var hommePleure = new Ouvrages()
-            {
-                titre = "L'Homme qui pleure de rire",
-                auteur = "Frederic Beigbeder",
-                exemplaires = 2
-            };
-
-            var vacancesComa = new Ouvrages()
-            {
-                titre = "Vacances dans le coma",
-                auteur = "Frederic Beigbeder",
-                exemplaires = 1
-            };
-
-            var frivoliteSerieuse = new Ouvrages()
-            {
-                titre = "La frivolite est une affaire serieuse",
-                auteur = "Frederic Beigbeder",
-                exemplaires = 1
-            };
-
-            var petitChose = new Ouvrages()
-            {
-                titre = "Le petit Chose",
-                auteur = "Alphonse Daudet",
-                exemplaires = 1
-            };
-
-            var lettresMoulin = new Ouvrages()
-            {
-                titre = "Les lettres de mon moulin",
-                auteur = "Alphonse Daudet",
-                exemplaires = 2
-            };
-
-            var tartarinAlpes = new Ouvrages()
-            {
-                titre = "Tartarin sur les Alpes",
-                auteur = "Alphonse Daudet",
-                exemplaires = 2
-            };
-
-            var tartarinTarascon = new Ouvrages()
-            {
-                titre = "Tartarin de Tarascon",
-                auteur = "Alphonse Daudet",
-                exemplaires = 1
-            };
-
-            await bibliotheque.Utilisateurs.AddRangeAsync(new Utilisateurs[] { henry, anais, felix, toussaint, kinza, jian });
-            await bibliotheque.Ouvrages.AddRangeAsync(new Ouvrages[] {stupeurTremblements,formVie,barbeBleue,journalHirondelle,acideSulfurique,mystereExcellence,
-                                                                        sabotageAmoureux,voyageHiver,lesCatilinaires,metaphysique,premierApocalypse,secoursPardon,
-                                                                        romanFrancais,memoiresDeranges,francs,hommePleure,vacancesComa,frivoliteSerieuse,petitChose,
-                                                                        lettresMoulin,tartarinAlpes,tartarinTarascon});
-
-            //voir comment ajouter les resrvations
         }
+
     }
+
 }
