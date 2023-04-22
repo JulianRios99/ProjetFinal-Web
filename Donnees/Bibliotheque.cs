@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjetFinal.Models;
+using Microsoft.Extensions.Logging;
 
 namespace ProjetFinal.Donnees
 {
     public class Bibliotheque: DbContext
     {
-        public static readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder => builder.AddSimpleConsole());
+        public static readonly ILoggerFactory loggerFactory = 
+            LoggerFactory.Create(builder => builder.AddSimpleConsole());
 
         public DbSet<Ouvrages> Ouvrages { get; set; }
         public DbSet<Reservations> Reservations { get; set; }

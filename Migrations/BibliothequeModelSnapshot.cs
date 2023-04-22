@@ -82,7 +82,7 @@ namespace ProjetFinal.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("ProjetFinal.Models.Utilisateurs", b =>
@@ -122,13 +122,13 @@ namespace ProjetFinal.Migrations
 
             modelBuilder.Entity("RoleUtilisateurs", b =>
                 {
-                    b.Property<int>("RoleID")
+                    b.Property<int>("RolesID")
                         .HasColumnType("int");
 
                     b.Property<int>("UtilisateursID")
                         .HasColumnType("int");
 
-                    b.HasKey("RoleID", "UtilisateursID");
+                    b.HasKey("RolesID", "UtilisateursID");
 
                     b.HasIndex("UtilisateursID");
 
@@ -158,7 +158,7 @@ namespace ProjetFinal.Migrations
                 {
                     b.HasOne("ProjetFinal.Models.Role", null)
                         .WithMany()
-                        .HasForeignKey("RoleID")
+                        .HasForeignKey("RolesID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

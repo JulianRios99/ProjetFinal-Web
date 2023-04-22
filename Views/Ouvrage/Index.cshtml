@@ -1,0 +1,41 @@
+﻿@model List<Ouvrages>
+@inject IViewLocalizer Localizer
+
+@{
+    var roles = Context.User.FindAll(ClaimTypes.Role);
+
+}
+
+
+
+ <table class="table">
+
+     <thead>
+         <tr>
+             <th>@Html.DisplayNameFor(v => v[0].Titre)</th>
+             <th>@Html.DisplayNameFor(v => v[0].Auteur)</th>
+             <th>@Html.DisplayNameFor(v => v[0].Exemplaires)</th>
+             <th></th>
+
+        </tr>
+     </thead>
+
+     @foreach (var ouvrage in Model)
+    {
+      <tr>
+        <td>@Html.DisplayFor(v => ouvrage.Titre)</td>
+        <td>@Html.DisplayFor(v => ouvrage.Auteur)</td>
+        <td>@Html.DisplayFor(v => ouvrage.Exemplaires)</td>
+            <td>
+                @if (Context.User.IsInRole("Admin"))
+                {
+                    <a asp-action="@nameof(OuvrageController.Modification)" asp-route-id="@ouvrage.ID">@Localizer["Modifier"]</a>
+                    <a asp-action="Confirmation" asp-route-id="@ouvrage.ID">@Localizer["Supprimer"]</a>
+                }
+         </td>
+
+
+      </tr>
+    }
+
+ </table>

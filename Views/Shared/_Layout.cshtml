@@ -1,4 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Localization;
+@{
+    var connecte = Context.User.Identity!.IsAuthenticated;
+   
+    IRequestCultureFeature culture = Context.Features.Get<IRequestCultureFeature>()!;
+    var chemin = Context.Request.Path;
+}
+@inject IViewLocalizer Localizer
+
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -23,9 +35,43 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Ouvrage" asp-action="Index">Ouvrages</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                                                
+                        
+                          <li class="nav-item">
+                        @if (connecte)
+                        {
+                            <a class="nav-link text-dark"
+                                asp-controller="Authentification"
+                                asp-action="Déconnexion">Déconnexion</a>
+                        }
+                        else
+                        {
+                            <a class="nav-link text-dark"
+                               asp-controller="Authentification"
+                               asp-action="Connexion"
+                               asp-route-ReturnUrl="@Context.Request.Path">Connexion</a>
+                        }
+                        </li>
                     </ul>
+                    
+                    @await Component.InvokeAsync("Login")
+
+                    <form asp-controller="Home" asp-action="Culture">
+                        <select name="Culture"
+                                asp-for="@culture.RequestCulture.Culture.Name"
+                                class="form-select"
+                                onchange="this.form.submit();">
+
+                            <option value="en-CA">@Localizer["Anglais (Canada)"]</option>
+                            <option value="fr-CA">@Localizer["Francais (Canada)"]</option>
+                        </select>
+                        <input type="hidden" asp-for="@chemin" />
+                    </form>
                 </div>
             </div>
         </nav>

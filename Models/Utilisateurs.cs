@@ -27,7 +27,7 @@ namespace ProjetFinal.Models
         public required bool Admin { get; set; }
 
         public List<Reservations> Reservations { get; set; } = new();
-         public List<Role> Role { get; set; } = new();
+         public List<Role> Roles { get; set; } = new();
 
     }
 }

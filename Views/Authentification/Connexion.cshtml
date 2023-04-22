@@ -1,0 +1,30 @@
+﻿@*Cette vue contien le formulaire de connexion  
+*@
+
+@model Utilisateurs
+
+<div class="row">
+    <div class="col-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Courriel" class="form-label"></label>
+                <input asp-for="Courriel" class=" form-control" />
+                <span asp-validation-for="Courriel" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="MotDePasse" class="form-label"></label>
+                <input asp-for="MotDePasse" type="password" class=" form-control" />
+                <span asp-validation-for="MotDePasse" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"> Connecter </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+

@@ -5,7 +5,7 @@
 namespace ProjetFinal.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class CreationDb_AjouteDonnes_MisAJour : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,7 +26,7 @@ namespace ProjetFinal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Role",
+                name: "Roles",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
@@ -35,7 +35,7 @@ namespace ProjetFinal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Role", x => x.ID);
+                    table.PrimaryKey("PK_Roles", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,16 +86,16 @@ namespace ProjetFinal.Migrations
                 name: "RoleUtilisateurs",
                 columns: table => new
                 {
-                    RoleID = table.Column<int>(type: "int", nullable: false),
+                    RolesID = table.Column<int>(type: "int", nullable: false),
                     UtilisateursID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleUtilisateurs", x => new { x.RoleID, x.UtilisateursID });
+                    table.PrimaryKey("PK_RoleUtilisateurs", x => new { x.RolesID, x.UtilisateursID });
                     table.ForeignKey(
-                        name: "FK_RoleUtilisateurs_Role_RoleID",
-                        column: x => x.RoleID,
-                        principalTable: "Role",
+                        name: "FK_RoleUtilisateurs_Roles_RolesID",
+                        column: x => x.RolesID,
+                        principalTable: "Roles",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -135,7 +135,7 @@ namespace ProjetFinal.Migrations
                 name: "Ouvrages");
 
             migrationBuilder.DropTable(
-                name: "Role");
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Utilisateurs");

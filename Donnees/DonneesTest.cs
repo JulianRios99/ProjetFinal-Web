@@ -18,90 +18,90 @@ namespace ProjetFinal.Donnees
             var roleAdmin = new Role { Nom = "Admin" };
             var roleUser = new Role { Nom = "User" };
 
-            await bibliotheque.Roles.AddRangeAsync(new Role[] { roleAdmin, roleUser });
+            await bibliotheque.Roles.AddRangeAsync(new Role[] {roleAdmin, roleUser });
 
             var henri = (await bibliotheque.Utilisateurs.FromSql($@"
-            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Administrateur])
-            OUTPUT INSERTED.ID,
+            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Admin])
+            OUTPUT INSERTED.ID, 
                    INSERTED.Prenom,
                    INSERTED.Nom,
                    INSERTED.Courriel,
                    INSERTED.MotDePasse,
                    INSERTED.Langue,
-                   INSERTED.Admin,
-            VALUES ({"Henry"},{"Delpech"}, {"henry.delpech@gmail.com"}, HASHBYTES('SHA2_256, {"test1"}), {0}, {"false"})
+                   INSERTED.Admin
+            VALUES ({"Henry"},{"Delpech"}, {"henry.delpech@gmail.com"}, HASHBYTES('SHA2_256', {"test1"}), {0}, {"false"})
             ").ToListAsync())[0];
 
 
             var anais = (await bibliotheque.Utilisateurs.FromSql($@"
-            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Administrateur])
+            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Admin])
             OUTPUT INSERTED.ID,
                    INSERTED.Prenom,
                    INSERTED.Nom,
                    INSERTED.Courriel,
                    INSERTED.MotDePasse,
                    INSERTED.Langue,
-                   INSERTED.Admin,
-            VALUES ({"Anaïs"},{"Laventure"}, {"anais.laventure@gmail.com"}, HASHBYTES('SHA2_256, {"test2"}), {0}, {"true"})
+                   INSERTED.Admin
+            VALUES ({"Anaïs"},{"Laventure"}, {"anais.laventure@gmail.com"}, HASHBYTES('SHA2_256', {"test2"}), {0}, {"true"})
             ").ToListAsync())[0];
 
 
             var felix = (await bibliotheque.Utilisateurs.FromSql($@"
-            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Administrateur])
+            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Admin])
             OUTPUT INSERTED.ID,
                    INSERTED.Prenom,
                    INSERTED.Nom,
                    INSERTED.Courriel,
                    INSERTED.MotDePasse,
                    INSERTED.Langue,
-                   INSERTED.Admin,
-            VALUES ({"Félix"},{"Dionne"}, {"felix.dionne@gmail.com"}, HASHBYTES('SHA2_256, {"test3"}), {0}, {"false"})
+                   INSERTED.Admin
+            VALUES ({"Félix"},{"Dionne"}, {"felix.dionne@gmail.com"}, HASHBYTES('SHA2_256', {"test3"}), {0}, {"false"})
             ").ToListAsync())[0];
 
             var michel = (await bibliotheque.Utilisateurs.FromSql($@"
-            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Administrateur])
+            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Admin])
             OUTPUT INSERTED.ID,
                    INSERTED.Prenom,
                    INSERTED.Nom,
                    INSERTED.Courriel,
                    INSERTED.MotDePasse,
                    INSERTED.Langue,
-                   INSERTED.Admin,
-            VALUES ({"Michel"},{"Toussaint"}, {"toussaint.michel@gmail.com"}, HASHBYTES('SHA2_256, {"test4"}), {0}, {"false"})
+                   INSERTED.Admin
+            VALUES ({"Michel"},{"Toussaint"}, {"toussaint.michel@gmail.com"}, HASHBYTES('SHA2_256', {"test4"}), {0}, {"false"})
             ").ToListAsync())[0];
 
             var kinza = (await bibliotheque.Utilisateurs.FromSql($@"
-            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Administrateur])
+            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Admin])
             OUTPUT INSERTED.ID,
                    INSERTED.Prenom,
                    INSERTED.Nom,
                    INSERTED.Courriel,
                    INSERTED.MotDePasse,
                    INSERTED.Langue,
-                   INSERTED.Admin,
-            VALUES ({"Kinza"},{"Bacha"}, {"kinza.bacha@gmail.com"}, HASHBYTES('SHA2_256, {"test5"}), {0}, {"false"})
+                   INSERTED.Admin
+            VALUES ({"Kinza"},{"Bacha"}, {"kinza.bacha@gmail.com"}, HASHBYTES('SHA2_256', {"test5"}), {0}, {"false"})
             ").ToListAsync())[0];
 
 
             var Jian = (await bibliotheque.Utilisateurs.FromSql($@"
-            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Administrateur])
+            INSERT INTO [Utilisateurs] ([Prenom], [Nom], [Courriel], [MotDePasse], [Langue], [Admin])
             OUTPUT INSERTED.ID,
                    INSERTED.Prenom,
                    INSERTED.Nom,
                    INSERTED.Courriel,
                    INSERTED.MotDePasse,
                    INSERTED.Langue,
-                   INSERTED.Admin,
-            VALUES ({"Jian"},{"Xiaochun"}, {"jian.xiaochun@gmail.com"}, HASHBYTES('SHA2_256, {"test6"}), {1}, {"false"})
+                   INSERTED.Admin
+            VALUES ({"Jian"},{"Xiaochun"}, {"jian.xiaochun@gmail.com"}, HASHBYTES('SHA2_256', {"test6"}), {1}, {"false"})
             ").ToListAsync())[0];
 
 
-            henri.Role.Add(roleUser);
-            anais.Role.Add(roleAdmin);
-            felix.Role.Add(roleUser);
-            michel.Role.Add(roleUser);
-            kinza.Role.Add(roleUser);
-            Jian.Role.Add(roleUser);
+            henri.Roles.Add(roleUser);
+            anais.Roles.Add(roleAdmin);
+            felix.Roles.Add(roleUser);
+            michel.Roles.Add(roleUser);
+            kinza.Roles.Add(roleUser);
+            Jian.Roles.Add(roleUser);
 
 
             var ouvrage1 = new Ouvrages()
@@ -295,15 +295,15 @@ namespace ProjetFinal.Donnees
             var reservation1 = new Reservations()
             {
                 Utilisateurs = michel,
-                Ouvrage = ouvrage10  // Il manque ajouter lautre 
+                Ouvrage = ouvrage10 
             };
 
-            /*
+
             var reservation2 = new Reservations()
             {
                 Utilisateurs = michel,
-                Ouvrage = ouvrage1,  // MODIFIER louvrage correct est la 10 
-            };*/
+                Ouvrage = ouvrage3, 
+            };
 
             var reservation3 = new Reservations()
             {
@@ -323,12 +323,17 @@ namespace ProjetFinal.Donnees
             {
                 Utilisateurs = kinza,
 
-              //  Ouvrage = List<Ouvrages>(ouvrage20, ouvrage3)
-
-                Ouvrage = ouvrage20 // il manque ajouter l'ouvrage3 
+                Ouvrage = ouvrage20 
             };
 
-            await bibliotheque.Reservations.AddRangeAsync(new Reservations[] { reservation1, reservation3, reservation4, reservation5 }); // MODIFIER LES RESERVATIONS
+            var reservation6 = new Reservations()
+            {
+                Utilisateurs = kinza,
+
+                Ouvrage = ouvrage3
+            };
+
+            await bibliotheque.Reservations.AddRangeAsync(new Reservations[] { reservation1,reservation2, reservation3, reservation4, reservation5, reservation6 }); 
 
             await bibliotheque.SaveChangesAsync();
 

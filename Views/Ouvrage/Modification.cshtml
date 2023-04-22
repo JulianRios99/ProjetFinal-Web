@@ -1,0 +1,36 @@
+﻿@model Ouvrages
+@inject IViewLocalizer Localizer
+
+
+<div class="row">
+    <div class="col-4">
+      
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Titre" class="form-label"></label>
+                <input asp-for="Titre" class="form-control" />
+                <span asp-validation-for="Titre" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input asp-for="Auteur" class="form-check-input" />
+                <label asp-for="Auteur" class="form-check-label"></label>
+                <span asp-validation-for="Auteur" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Exemplaires" class="form-label"></label>
+                <select asp-for="Exemplaires" class="form-select"></select>
+                <span asp-validation-for="Exemplaires" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">@Localizer["Enregistrer"]</button>
+                <a class="btn btn-secondary" asp-action="Index" role="button">@Localizer["Annuler"]</a>
+            </div>
+        </form>
+    </div>
+</div>
+

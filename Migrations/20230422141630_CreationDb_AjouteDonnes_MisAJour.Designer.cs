@@ -11,8 +11,8 @@ using ProjetFinal.Donnees;
 namespace ProjetFinal.Migrations
 {
     [DbContext(typeof(Bibliotheque))]
-    [Migration("20230418041829_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20230422141630_CreationDb_AjouteDonnes_MisAJour")]
+    partial class CreationDb_AjouteDonnes_MisAJour
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,7 +85,7 @@ namespace ProjetFinal.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("ProjetFinal.Models.Utilisateurs", b =>
@@ -125,13 +125,13 @@ namespace ProjetFinal.Migrations
 
             modelBuilder.Entity("RoleUtilisateurs", b =>
                 {
-                    b.Property<int>("RoleID")
+                    b.Property<int>("RolesID")
                         .HasColumnType("int");
 
                     b.Property<int>("UtilisateursID")
                         .HasColumnType("int");
 
-                    b.HasKey("RoleID", "UtilisateursID");
+                    b.HasKey("RolesID", "UtilisateursID");
 
                     b.HasIndex("UtilisateursID");
 
@@ -161,7 +161,7 @@ namespace ProjetFinal.Migrations
                 {
                     b.HasOne("ProjetFinal.Models.Role", null)
                         .WithMany()
-                        .HasForeignKey("RoleID")
+                        .HasForeignKey("RolesID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
