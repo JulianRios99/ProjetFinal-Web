@@ -3,9 +3,18 @@
 
 @{
     var roles = Context.User.FindAll(ClaimTypes.Role);
-
+    var connexion = Context.User.Identity!.IsAuthenticated;
+    var name = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 }
 
+<form method="post" asp-action="Recherche" asp-controller="Ouvrage">
+     <label>Autuer:</label>
+     <input type="text" name="auteur"/>
+    <label>Titre:</label>
+    <input type="text" name="titre" />
+    <button type="submit">Recherche</button>
+ </form>
+ 
 
 
  <table class="table">
@@ -27,11 +36,16 @@
         <td>@Html.DisplayFor(v => ouvrage.Auteur)</td>
         <td>@Html.DisplayFor(v => ouvrage.Exemplaires)</td>
             <td>
-                @if (Context.User.IsInRole("Admin"))
-                {
-                    <a asp-action="@nameof(OuvrageController.Modification)" asp-route-id="@ouvrage.ID">@Localizer["Modifier"]</a>
-                    <a asp-action="Confirmation" asp-route-id="@ouvrage.ID">@Localizer["Supprimer"]</a>
+                @if(connexion){
+                    <a asp-action="@nameof(OuvrageController.Ajouter)" asp-route-id="@name" asp-route-ouvrageId="@ouvrage.ID">@Localizer["Reserver"]</a>
+
+                    @if (Context.User.IsInRole("Admin"))
+                    {
+                        <a asp-action="@nameof(OuvrageController.Modification)" asp-route-id="@ouvrage.ID">@Localizer["Modifier"]</a>
+                        <a asp-action="Confirmation" asp-route-id="@ouvrage.ID">@Localizer["Supprimer"]</a>
+                    }
                 }
+               
          </td>
 
 

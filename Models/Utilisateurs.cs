@@ -23,7 +23,6 @@ namespace ProjetFinal.Models
 
         public required Langue Langue { get; set; }
 
-        //Voir si besoin de roles
         public required bool Admin { get; set; }
 
         public List<Reservations> Reservations { get; set; } = new();

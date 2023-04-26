@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using System;   
 using ProjetFinal.Donnees;
 
 
@@ -16,7 +16,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
         options.SlidingExpiration = true;
         options.LoginPath = "/Authentification/Connexion";///Methode Connexion
-      //  options.AccessDeniedPath = "/Authentification/Interdit"; /// Methode interdit
+      // options.AccessDeniedPath = "/Authentification/Interdit"; /// Methode interdit
     });
 
 

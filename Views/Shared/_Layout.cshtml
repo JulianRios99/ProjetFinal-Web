@@ -37,12 +37,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Ouvrage" asp-action="Index">Ouvrages</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                                                
                         
-                          <li class="nav-item">
+                        
+                        <li class="nav-item">
+                            @if (connecte)
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservation" asp-action="Index">Reservation</a>
+                            }
+                        </li>
+
+
+
+
+                        <li class="nav-item">
                         @if (connecte)
                         {
                             <a class="nav-link text-dark"
@@ -57,9 +64,12 @@
                                asp-route-ReturnUrl="@Context.Request.Path">Connexion</a>
                         }
                         </li>
+
+
+
                     </ul>
                     
-                    @await Component.InvokeAsync("Login")
+                    @*await Component.InvokeAsync("Login")*@
 
                     <form asp-controller="Home" asp-action="Culture">
                         <select name="Culture"

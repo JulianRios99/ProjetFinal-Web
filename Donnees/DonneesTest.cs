@@ -29,7 +29,7 @@ namespace ProjetFinal.Donnees
                    INSERTED.MotDePasse,
                    INSERTED.Langue,
                    INSERTED.Admin
-            VALUES ({"Henry"},{"Delpech"}, {"henry.delpech@gmail.com"}, HASHBYTES('SHA2_256', {"test1"}), {0}, {"false"})
+            VALUES ({"Henri"},{"Delpech"}, {"henri.delpech@gmail.com"}, HASHBYTES('SHA2_256', {"test1"}), {0}, {"false"})
             ").ToListAsync())[0];
 
 

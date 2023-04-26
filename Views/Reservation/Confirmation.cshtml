@@ -1,0 +1,10 @@
+﻿@model Reservations
+@inject IViewLocalizer Localizer
+
+<p>@Localizer["Supprimer la reservation? {0} ?", @Model.ID]</p>
+
+<form asp-action="Suppression" asp-route-id="@Model.ID">
+    <button type="submit" class="btn btn-danger">@Localizer["Confirmer"]</button>
+    <a asp-action="Index" class="btn btn-secondary" role="button">@Localizer["Annuler"]</a>
+</form>
+

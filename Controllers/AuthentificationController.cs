@@ -14,7 +14,7 @@ namespace ProjetFinal.Controllers
     public class AuthentificationController : Controller
     {
 
-       private readonly Bibliotheque _bibliotheque;
+        private readonly Bibliotheque _bibliotheque;
 
 
         public AuthentificationController(Bibliotheque bibliotheque)
@@ -23,8 +23,9 @@ namespace ProjetFinal.Controllers
         }
 
         // Methode responsable de l’affichage du formulaire de connexion
-        public IActionResult Connexion() { 
-        
+        public IActionResult Connexion()
+        {
+
             return View();
         }
 
@@ -33,14 +34,14 @@ namespace ProjetFinal.Controllers
 
         // Type complexe = type compose comme une classe (utilisateur est un type complexe =compose)
         // Type simple  = string, int..... (UrL et un type simple = string)
-        public async Task<IActionResult> Connexion(Utilisateurs formulaire, string? ReturnUrl)
+        public async Task<IActionResult> Connexion(Connexion formulaire, string? ReturnUrl)
         {
             if (!ModelState.IsValid) { return View(); }
 
             var user = await _bibliotheque.Utilisateurs.FromSql($@"
                 SELECT * FROM [Utilisateurs]
                 WHERE [Courriel] = {formulaire.Courriel}
-                AND [MotDePasse] = HASHBYTES('SHA2_256', {formulaire.MotDePasse})
+                AND [MotDePasse] = HASHBYTES('SHA2_256',{formulaire.MotDePasse})
             ")
                 .Include(v => v.Roles)
                 .FirstOrDefaultAsync();
@@ -55,15 +56,18 @@ namespace ProjetFinal.Controllers
                 new Claim(ClaimTypes.NameIdentifier, user.ID.ToString())
             };
 
-            user.Roles.ForEach(role => {
+            user.Roles.ForEach(role =>
+            {
                 claims.Add(new Claim(ClaimTypes.Role, role.Nom));
             });
 
-          
+
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,  // Ici on dit quon va utiliser un cookie
                 new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme)), //On  passe les informations
                 new AuthenticationProperties { });
+
+            //Response.Cookies.Append("Name", user.Nom + " " + user.Prenom);
 
             //Avec LocalRedirect on s'assure que si qqun allait modifier les info envoyés pour le formalaire dun URL vers un site externe LocalRedirect le blocarait   
             // Car localredirect verifie que l'url passé en parametre est un URL local
@@ -82,6 +86,10 @@ namespace ProjetFinal.Controllers
         {
             return View();
         }
-    }
+        
 
+        
+
+
+    }
 }

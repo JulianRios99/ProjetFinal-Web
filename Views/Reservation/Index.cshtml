@@ -1,0 +1,49 @@
+﻿@model List<Reservations>
+@inject IViewLocalizer Localizer
+
+@{
+    var connexion = Context.User.Identity!.IsAuthenticated;
+    var name = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+
+}
+
+ <table class="table">
+
+
+     <thead>
+         Tes Reservations
+         <tr>
+           @* <th>@Html.DisplayNameFor(v => v[0].Utilisateurs)</th>*@
+            <th>@Html.DisplayNameFor(v => v[0].Ouvrage)</th>
+            <th></th>
+
+        </tr>
+     </thead>
+
+     @foreach (var reservation in Model)
+    {
+        if (reservation.Utilisateurs.ID.ToString() == name)
+        {
+            <tr>
+                @{
+                    //var test = reservation.Utilisateurs.Prenom + " " + reservation.Utilisateurs.Nom;
+                    var test2 = reservation.Ouvrage.Titre + " - " + reservation.Ouvrage.Auteur;
+                }
+                @*<td>@Html.DisplayFor(v => test)</td>*@
+                <td>@Html.DisplayFor(v => test2 )</td>
+                <td>
+                @if (Context.User.IsInRole("Admin"))
+                {
+                        <a asp-action="@nameof(ReservationController.Modification)" asp-route-id="@reservation.ID">@Localizer["Modifier"]</a>
+                    <a asp-action="Confirmation" asp-route-id="@reservation.ID">@Localizer["Supprimer"]</a>
+                }
+                </td>
+
+
+             </tr> 
+        }
+        
+    }
+
+ </table>

@@ -1,0 +1,30 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model List<Ouvrages>
+}
+
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(v => v[0].Titre)</th>
+            <th>@Html.DisplayNameFor(v => v[0].Auteur)</th>
+            <th>@Html.DisplayNameFor(v => v[0].Exemplaires)</th>
+            <th></th>
+
+        </tr>
+    </thead>
+
+    @foreach (var ouvrage in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(v => ouvrage.Titre)</td>
+            <td>@Html.DisplayFor(v => ouvrage.Auteur)</td>
+            <td>@Html.DisplayFor(v => ouvrage.Exemplaires)</td>
+        </tr>
+    }
+
+</table>
