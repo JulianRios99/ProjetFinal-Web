@@ -5,7 +5,6 @@
     var connexion = Context.User.Identity!.IsAuthenticated;
     var name = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-
 }
 
  <table class="table">
@@ -33,11 +32,10 @@
                 @*<td>@Html.DisplayFor(v => test)</td>*@
                 <td>@Html.DisplayFor(v => test2 )</td>
                 <td>
-                @if (Context.User.IsInRole("Admin"))
-                {
-                        <a asp-action="@nameof(ReservationController.Modification)" asp-route-id="@reservation.ID">@Localizer["Modifier"]</a>
+               
+                 @*   <a asp-action="@nameof(ReservationController.Modification)" asp-route-id="@reservation.ID">@Localizer["Modifier"]</a>*@
                     <a asp-action="Confirmation" asp-route-id="@reservation.ID">@Localizer["Supprimer"]</a>
-                }
+                
                 </td>
 
 

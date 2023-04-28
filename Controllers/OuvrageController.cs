@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetFinal.Donnees;
 using ProjetFinal.Models;
+using System.Security.Claims;
 
 namespace ProjetFinal.Controllers
 {
@@ -75,17 +76,16 @@ namespace ProjetFinal.Controllers
             {
                 return NotFound();
             }
-            {
-
-            }
             var nombreLimite = await _bibliotheque.Reservations.Include(v => v.Utilisateurs).Where(v => v.Utilisateurs.ID == id).ToListAsync();
 
             var nombre = nombreLimite.Count;
 
             if (nombre >= 3)
             {
-                return RedirectToAction(nameof(Index));
+               return RedirectToAction(nameof(Index));
+                
             }
+     
 
             var reserv = new Reservations { Ouvrage = ouvrage, Utilisateurs = utilisateur };
 
@@ -98,26 +98,57 @@ namespace ProjetFinal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Ajouter(Ouvrages donnes)
+        public async Task<IActionResult> Ajouter(Ouvrages donnees)
         {
             if (!ModelState.IsValid)
             {
-                return View(nameof(Modification), donnes);
+                return View(nameof(Modification), donnees);
             }
-
             await _bibliotheque.Ouvrages.AddAsync(new Ouvrages()
             {
-                Titre = donnes.Titre,
-                Auteur = donnes.Auteur,
-                Exemplaires = donnes.Exemplaires
+                Titre = donnees.Titre,
+                Auteur = donnees.Auteur,
+                Exemplaires = donnees.Exemplaires
             });
             await _bibliotheque.SaveChangesAsync();
+            return RedirectToAction(nameof(Modification));          
+        }
 
-            return RedirectToAction(nameof(Index));
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> Confirmation(int id)
+
+        {
+            var ouvrage = await _bibliotheque.Ouvrages.FindAsync(id);
+
+            var utilisateur = await _bibliotheque.Utilisateurs
+                    .Where(v => v.Courriel.Equals(HttpContext.User.FindFirstValue(ClaimTypes.Email)))
+                    .FirstOrDefaultAsync();
+
+            var nombreReserations = await _bibliotheque.Reservations
+                .Where(v => v.Utilisateurs.Equals(utilisateur))
+                .CountAsync();
+
+            if (ouvrage != null && utilisateur != null)
+            {
+                if (nombreReserations < 3 && ouvrage.Exemplaires > 0)
+                {
+                    await _bibliotheque.Reservations.AddAsync(new Reservations { Utilisateurs = utilisateur, Ouvrage = ouvrage });
+
+                    ouvrage.Exemplaires -= 1;
+
+                    await _bibliotheque.SaveChangesAsync();
+
+                    return View(ouvrage);
+                }
+            }
+
+            return NotFound();
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Confirmation(int id)
+        public async Task<IActionResult> ConfirmationAdmin(int id)
         {
             var ouvrage = await _bibliotheque.Ouvrages.FindAsync(id);
 
@@ -129,8 +160,11 @@ namespace ProjetFinal.Controllers
             return NotFound();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
+
+
+        // [HttpPost]
+        // [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Suppression(int id)
         {
@@ -139,12 +173,14 @@ namespace ProjetFinal.Controllers
             if (ouvrage != null)
             {
                 _bibliotheque.Ouvrages.Remove(ouvrage);
+
                 await _bibliotheque.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
 
             return NotFound();
+
         }
 
         [HttpPost]
@@ -171,6 +207,11 @@ namespace ProjetFinal.Controllers
 
             return View(found);
 
+        }
+
+        public IActionResult ResReussi()
+        {
+            return View();
         }
     }
 }
